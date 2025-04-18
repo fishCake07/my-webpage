@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functionality Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        //Initialize EmailJS
+        emailjs.init("TNztBG1MAdAQPusrq");
+    </script>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    text-align: center;
+    background-repeat: no-repeat;
+    font-family: 'Comic Sans MS', sans-serif;
+}
+html {
+    min-height: 100vh;
+}
+.hidden {
+    display: none;
+}
+.step-container {
+    width: 350px;
+    height: 350px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    border-radius: 15px;
+    padding: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+#Start {
+    background-image: linear-gradient( 150.4deg,  rgba(75,255,237,1) 11.7%, rgba(32,42,235,1) 82.4% );
+}
+
+#Start button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 18px;
+    width: 200px;
+    height: 150px;
+    background-image: linear-gradient(179.1deg, rgba(255,250,172,1) 10.3%, rgba(13,167,168,1) 148% );
+    font-size: 2rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#Content {
+    background-image: radial-gradient( circle farthest-corner at 1.9% 5%,  rgba(153,64,246,1) 0%, rgba(248,66,228,1) 90% );
+}
+#Content::before {
+    content: '🐷';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18rem;
+    z-index: -1;
+    opacity: 0.4;
+}
+#Content .sub-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#Content h2 {
+    font-size: 3rem;
+    text-shadow: 5px 4px 3px whitesmoke;
+    letter-spacing: 2px;
+}
+#Content input[type="text"] {
+    width: 200px;
+    padding: 18px 14px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(240,139,139,1) 0%, rgba(243,252,166,1) 90% );
+}
+#Content button[type="submit"] {
+    padding: 18px 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    color: black;
+    background-color: lightgreen;
+}
+#End {
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+}
+#End .sub-end {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#End button {
+    background-color: aqua;
+    border: 1px solid black;
+    font-size: 1.3rem;
+    width: 200px;
+    padding: 14px 0px;
+}
+</style>
+</head>
+<body>
+<div id="Start" class="step-container">
+    <button type="button" onclick="startBtn()">Start !</button>
+</div>
+
+<div id="Content" class="step-container hidden">
+    <div class="sub-content">
+    <h2>Name</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button type="submit" onclick="submitBtn()">submit</button>
+    </div>
+</div>
+
+<div id="End" class="step-container hidden">
+    <!--Insert local date time here-->
+    <div class="sub-end">
+    <h2 id="endText"></h2>
+    <button type="button" onclick="backBtn()">back</button>
+    </div>
+</div>
+<script>
+function startBtn() {
+    document.getElementById("Content").classList.remove("hidden");
+    document.getElementById("Start").classList.add("hidden");
+}
+function submitBtn() {
+    const nameInput = document.getElementById('nameInput').value.trim();
+    if (['Cindy Bear', 'Yogi Bear', '小猪猪'].includes(nameInput)) {
+    document.getElementById("End").classList.remove("hidden");
+    document.getElementById("Content").classList.add("hidden");
+    } else {
+        alert('Incorrect name. Please try again!');
+    }
+    const text = "You've Completed Functionality Test by";
+    const dateTime = new Date();
+    document.getElementById('endText').innerText = `${text} ${dateTime}. Thank You ! ❤️`;
+    emailjs.send("service_3drigbc","template_x3q3dhc", {
+        to_email: "yookbinfoo0110@gmail.com",
+        subject: "Button Clicked",
+        message: `${dateTime}, ${nameInput} clicked the 'Submit' button! 🐷`
+        }).then(() => {
+        console.log("Notification sent to Gmail successfully!");
+        }).catch((error) => {
+        console.error("Failed to send email notification:", error);
+        });
+        
+}
+function backBtn() {
+    document.getElementById("Start").classList.remove("hidden");
+    document.getElementById("End").classList.add("hidden");
+}
+</script>     
+</body>
+</html>
